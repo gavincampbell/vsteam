@@ -16,6 +16,7 @@ InModuleScope VSTeam {
       name               = 'Test_Agent'
       authorization      = [PSCustomObject]@{}
       systemCapabilities = [PSCustomObject]@{}
+      lastCompletedRequest = [PSCustomObject]@{}
    }
 
    Describe 'agents' {

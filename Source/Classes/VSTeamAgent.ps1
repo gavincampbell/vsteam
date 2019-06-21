@@ -4,7 +4,8 @@ class VSTeamAgent : VSTeamLeaf {
    [string]$os
    [bool]$enabled
    [PSCustomObject]$systemCapabilities
-
+   [PSCustomObject]$lastCompletedRequest
+   
    VSTeamAgent (
       [object]$obj
    ) : base($obj.name, $obj.Id, $null) {
@@ -13,6 +14,7 @@ class VSTeamAgent : VSTeamLeaf {
       $this.enabled = $obj.enabled
       $this.version = $obj.version
       $this.systemCapabilities = $obj.systemCapabilities
+      $this.lastCompletedRequest = $obj.lastCompletedRequest
 
       # Depending on TFS/VSTS this might not be returned
       if ($obj.PSObject.Properties.Match('osDescription').count -gt 0) {

@@ -265,6 +265,7 @@ InModuleScope VSTeam {
                   osDescription      = 'Linux'
                   name               = 'Test_Agent'
                   systemCapabilities = [PSCustomObject]@{}
+                  lastCompletedRequest = [PSCustomObject]@{}
                }
             )
          }

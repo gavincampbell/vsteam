@@ -24,7 +24,7 @@ function Get-VSTeamAgent {
       }
       else {
          $resp = _callAPI -Area "distributedtask/pools/$PoolId" -Resource agents `
-            -Body @{includeCapabilities = 'true'} -Version $([VSTeamVersions]::DistributedTask)
+            -Body @{includeCapabilities = 'true' ; includeLastCompletedRequest = 'true'} -Version $([VSTeamVersions]::DistributedTask)
 
          $objs = @()
 
