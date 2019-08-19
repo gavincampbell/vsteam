@@ -8,24 +8,44 @@ $profilesPath = "$HOME/vsteam_profiles.json"
 # Not all versions support the name features.
 
 function _supportsGraph {
-   if (-not [VSTeamVersions]::Graph) {
+   _hasAccount
+   if ($false -eq $(_testGraphSupport)) {
       throw 'This account does not support the graph API.'
    }
 }
 
+function _testGraphSupport {
+   if (-not [VSTeamVersions]::Graph) {
+      return $false
+   }
+
+   return $true
+}
+
 function _supportsFeeds {
-   if (-not [VSTeamVersions]::Packaging) {
+   _hasAccount
+   if ($false -eq $(_testFeedSupport)) {
       throw 'This account does not support packages.'
    }
 }
 
+function _testFeedSupport {
+   if (-not [VSTeamVersions]::Packaging) {
+      return $false
+   }
+
+   return $true
+}
+
 function _supportsSecurityNamespace {
+   _hasAccount
    if (([VSTeamVersions]::Version -ne "VSTS") -and ([VSTeamVersions]::Version -ne "AzD")) {
       throw 'Security Namespaces are currently only supported in Azure DevOps Service (Online)'
    }
 }
 
 function _supportsMemberEntitlementManagement {
+   _hasAccount
    if (-not [VSTeamVersions]::MemberEntitlementManagement) {
       throw 'This account does not support Member Entitlement.'
    }
@@ -494,7 +514,11 @@ function _buildDynamicParam {
       [array] $arrSet,
       [bool] $Mandatory = $false,
       [string] $ParameterSetName,
-      [int] $Position = -1
+      [int] $Position = -1,
+      [type] $ParameterType = [string],
+      [bool] $ValueFromPipelineByPropertyName = $true,
+      [string] $AliasName,
+      [string] $HelpMessage
    )
    # Create the collection of attributes
    $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
@@ -502,7 +526,7 @@ function _buildDynamicParam {
    # Create and set the parameters' attributes
    $ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
    $ParameterAttribute.Mandatory = $Mandatory
-   $ParameterAttribute.ValueFromPipelineByPropertyName = $true
+   $ParameterAttribute.ValueFromPipelineByPropertyName = $ValueFromPipelineByPropertyName
 
    if ($Position -ne -1) {
       $ParameterAttribute.Position = $Position
@@ -512,8 +536,17 @@ function _buildDynamicParam {
       $ParameterAttribute.ParameterSetName = $ParameterSetName
    }
 
+   if ($HelpMessage) {
+      $ParameterAttribute.HelpMessage = $HelpMessage
+   }
+
    # Add the attributes to the attributes collection
    $AttributeCollection.Add($ParameterAttribute)
+
+   if ($AliasName) {
+      $AliasAttribute = New-Object System.Management.Automation.AliasAttribute(@($AliasName))
+      $AttributeCollection.Add($AliasAttribute)
+   }
 
    if ($arrSet) {
       # Generate and set the ValidateSet
@@ -524,33 +557,7 @@ function _buildDynamicParam {
    }
 
    # Create and return the dynamic parameter
-   return New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [string], $AttributeCollection)
-}
-
-function _buildDynamicSwitchParam {
-   param(
-      [string] $ParameterName = 'QueueName',
-      [array] $arrSet,
-      [bool] $Mandatory = $false,
-      [string] $ParameterSetName
-   )
-   # Create the collection of attributes
-   $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-
-   # Create and set the parameters' attributes
-   $ParameterAttribute = New-Object System.Management.Automation.ParameterAttribute
-   $ParameterAttribute.Mandatory = $Mandatory
-   $ParameterAttribute.ValueFromPipelineByPropertyName = $true
-
-   if ($ParameterSetName) {
-      $ParameterAttribute.ParameterSetName = $ParameterSetName
-   }
-
-   # Add the attributes to the attributes collection
-   $AttributeCollection.Add($ParameterAttribute)
-
-   # Create and return the dynamic parameter
-   return New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, [switch], $AttributeCollection)
+   return New-Object System.Management.Automation.RuntimeDefinedParameter($ParameterName, $ParameterType, $AttributeCollection)
 }
 
 function _convertSecureStringTo_PlainText {
@@ -631,7 +638,7 @@ function _callAPI {
          Write-Verbose "return type: $($resp.gettype())"
          Write-Verbose $resp
       }
-   
+
       return $resp
    }
    catch {
@@ -724,7 +731,8 @@ function _supportsServiceFabricEndpoint {
 
 function _getModuleVersion {
    # Read the version from the psd1 file.
-   $content = (Get-Content -Raw "$here\..\VSTeam.psd1" | Out-String)
+   # $content = (Get-Content -Raw "./VSTeam.psd1" | Out-String)
+   $content = (Get-Content -Raw "$here\VSTeam.psd1" | Out-String)
    $r = [regex]"ModuleVersion += +'([^']+)'"
    $d = $r.Match($content)
 
@@ -799,7 +807,7 @@ function _getVSTeamIdFromDescriptor {
    $identifier = $Descriptor.Split('.')[1]
 
    # We need to Pad the string for FromBase64String to work reliably (AzD Descriptors are not padded)
-   $ModulusValue = ($identifier.length % 4)   
+   $ModulusValue = ($identifier.length % 4)
    Switch ($ModulusValue) {
       '0' { $Padded = $identifier }
       '1' { $Padded = $identifier.Substring(0, $identifier.Length - 1) }
