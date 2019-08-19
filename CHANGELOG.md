@@ -1,5 +1,60 @@
 # Changelog
 
+## 6.3.2
+
+Merged [Pull Request](https://github.com/DarqueWarrior/vsteam/pull/182) from [eosfor](https://github.com/eosfor) which included the following:
+
+Invalidate cache on account change
+
+Merged [Pull Request](https://github.com/DarqueWarrior/vsteam/pull/181) from [Michael Erpenbeck](https://github.com/GitMje) which included the following:
+
+Fixed typo in README.md file for better readability
+
+Merged [Pull Request](https://github.com/DarqueWarrior/vsteam/pull/179) from [Jim W](https://github.com/Seekatar) which included the following:
+
+Add PSDrive support for memberships
+
+- Memberships
+  - Groups
+    - Group1
+  - Users
+    - User1
+
+## 6.3.1
+
+Merged [Pull Request](https://github.com/DarqueWarrior/vsteam/pull/178) from [Jim W](https://github.com/Seekatar) which included the following:
+
+- Add-VSTeamMembership
+- Remove-VSTeamMembership
+- Get-VSTeamMembership
+- Test-VSTeamMembership
+
+## 6.3.0
+
+Added support for the following:
+
+- Update-VSTeamReleaseDefinition
+
+Also added Raw and JSON support to the Get-VSTeamReleaseDefinition.
+The shape of the object returned by Get-VSTeamReleaseDefinition was slightly changed.
+Release definitions was added to the SHiPS provider.
+
+## 6.2.9
+
+Merged [Pull Request](https://github.com/DarqueWarrior/vsteam/pull/176) from [Carlo Wahlstedt](https://github.com/carlowahlstedt) which included the following:
+
+Updated help to refer to Add-VSTeamProfile instead of Set-VSTeamProfile
+
+## 6.2.8
+
+Added support for Get-VSTeamJobRequest. The provider was extended to show the Job Request under the Agent.
+
+- Account
+  - Agent Pools
+    - Pool1
+      - Agent1
+        - JobRequest1
+
 ## 6.2.7
 
 Added support for -Raw and -Json on Get-VSTeamBuildDefinition so the objects and/or JSON can be returned in Update-VSTeamBuildDefinition.
@@ -10,6 +65,15 @@ This was added so users can update Build variables from one stage to pass to the
 $b = Get-VSTeamBuildDefinition 12 -Raw
 Add-VSTeamBuildDefinition -InFile $b
 ```
+
+Also merged [Pull Request](https://github.com/DarqueWarrior/vsteam/pull/170) from [Ignacio Galarza, Jr.](https://github.com/ignatz42) which included the following:
+
+Added functions to deal with variable groups
+
+- Added Add-VSTeamVariableGroup to add new variable groups.
+- Added Get-VSTeamVariableGroup to get variable groups.
+- Added Update-VSTeamVariableGroup to update variable groups
+- Added Remove-VSTeamVariableGroup to remove variable groups
 
 ## 6.2.6
 

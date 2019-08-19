@@ -64,6 +64,10 @@ Add permissions to a git repository, all repositories in a project, or a specifi
 
 Adds connections to Kubernetes clusters
 
+### [Add-VSTeamMembership](Add-VSTeamMembership.md)
+
+Adds a membership to a container.
+
 ### [Add-VSTeamNuGetEndpoint](Add-VSTeamNuGetEndpoint.md)
 
 Adds a new NuGet service endpoint.
@@ -108,6 +112,10 @@ Adds a new SonarQube service endpoint.
 ### [Add-VSTeamUserEntitlement](Add-VSTeamUserEntitlement.md)
 
 Add a user, assign license and extensions and make them a member of a project group in an account.
+
+### [Add-VSTeamVariableGroup](Add-VSTeamVariableGroup.md)
+
+Adds a variable group.
 
 ### [Add-VSTeamWorkItem](Add-VSTeamWorkItem.md)
 
@@ -205,9 +213,17 @@ Returns a Group or List of Groups.
 
 Displays your current account and default project.
 
+### [Get-VSTeamJobRequest](Get-VSTeamJobRequest.md)
+
+Returns all the job requests of an agent.
+
 ### [Get-VSTeamMember](Get-VSTeamMember.md)
 
 Returns a team member.
+
+### [Get-VSTeamMembership](Get-VSTeamMembership.md)
+
+Gets a memberships for a container or member.
 
 ### [Get-VSTeamOption](Get-VSTeamOption.md)
 
@@ -285,6 +301,10 @@ Returns a list of users for the account.
 
 Get User Entitlement for a user.
 
+### [Get-VSTeamVariableGroup](Get-VSTeamVariableGroup.md)
+
+Gets a variable group
+
 ### [Get-VSTeamWorkItem](Get-VSTeamWorkItem.md)
 
 Returns one or more a work items from your project.
@@ -337,6 +357,10 @@ Removes a package feed from the account.
 
 Removes the Git repository from your Visual Studio Team Services or Team Foundation Server account.
 
+### [Remove-VSTeamMembership](Remove-VSTeamMembership.md)
+
+Removes a membership to a container.
+
 ### [Remove-VSTeamPolicy](Remove-VSTeamPolicy.md)
 
 Removes the specified policy from the specified project.
@@ -366,6 +390,10 @@ Removes a service endpoint.
 Delete a user from the account.
 
 The delete operation includes unassigning Extensions and Licenses and removing the user from all project memberships. The user would continue to have access to the account if she is member of an AAD group, that is added directly to the account.
+
+### [Remove-VSTeamVariableGroup](Remove-VSTeamVariableGroup.md)
+
+Removes a variable group
 
 ### [Set-VSTeamAccount](Set-VSTeamAccount.md)
 
@@ -440,6 +468,10 @@ Opens the release definitions for a team project in the default browser.
 
 Opens the work item in the default browser.
 
+### [Test-VSTeamMembership](Test-VSTeamMembership.md)
+
+Tests the membership in a container.
+
 ### [Update-VSTeam](Update-VSTeam.md)
 
 Updates the team name, description or both.
@@ -472,6 +504,10 @@ Updates the project name, description or both.
 
 Allows you to update release variables for future stages to read.
 
+### [Update-VSTeamReleaseDefinition](Update-VSTeamReleaseDefinition.md)
+
+Updates a build definition for a team project.
+
 ### [Update-VSTeamServiceEndpoint](Update-VSTeamServiceEndpoint.md)
 
 Updates an existing service connection
@@ -479,6 +515,10 @@ Updates an existing service connection
 ### [Update-VSTeamUserEntitlement](Update-VSTeamUserEntitlement.md)
 
 Edit the entitlements (License, Extensions, Projects, Teams etc) for a user.
+
+### [Update-VSTeamVariableGroup](Update-VSTeamVariableGroup.md)
+
+Updates an existing variable group
 
 ### [Update-VSTeamWorkItem](Update-VSTeamWorkItem.md)
 

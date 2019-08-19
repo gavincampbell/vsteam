@@ -110,7 +110,7 @@ InModuleScope VSTeam {
          }
       }
    }
-   
+
    Describe 'VSTS Build Definition' {
       # Mock the call to Get-Projects by the dynamic parameter for ProjectName
       Mock Invoke-RestMethod { return @() } -ParameterFilter {
@@ -209,7 +209,8 @@ InModuleScope VSTeam {
          # Skip 0 because that will be Agent Pools
          # Skip 1 because that will be Extensions
          # Skip 2 because that will be Feeds
-         $project = $account.GetChildItem()[3]
+         # Skip 3 because that will be Permissions
+         $project = $account.GetChildItem()[4]
 
          It 'Should return projects' {
             $project | Should Not Be $null
@@ -225,12 +226,14 @@ InModuleScope VSTeam {
             $actual[1].ProjectName | Should Be 'TestProject'
             $actual[2].Name | Should Be 'Queues'
             $actual[2].ProjectName | Should Be 'TestProject'
-            $actual[3].Name | Should Be 'Releases'
+            $actual[3].Name | Should Be 'Release Definitions'
             $actual[3].ProjectName | Should Be 'TestProject'
-            $actual[4].Name | Should Be 'Repositories'
+            $actual[4].Name | Should Be 'Releases'
             $actual[4].ProjectName | Should Be 'TestProject'
-            $actual[5].Name | Should Be 'Teams'
+            $actual[5].Name | Should Be 'Repositories'
             $actual[5].ProjectName | Should Be 'TestProject'
+            $actual[6].Name | Should Be 'Teams'
+            $actual[6].ProjectName | Should Be 'TestProject'
          }
       }
 
@@ -266,7 +269,7 @@ InModuleScope VSTeam {
                   name               = 'Test_Agent'
                   systemCapabilities = [PSCustomObject]@{}
                   lastCompletedRequest = [PSCustomObject]@{}
-               }
+               }, 1
             )
          }
 
@@ -535,6 +538,30 @@ InModuleScope VSTeam {
 
          It 'Should return team' {
             $team | Should Not Be $null
+         }
+      }
+
+      Context 'Permissions' {
+         Set-StrictMode -Version Latest
+         Mock Get-VSTeamGroup { return [VSTeamGroup]::new(@{})}
+         Mock Get-VSTeamUser { return [VSTeamGroup]::new(@{})}
+
+         $permissions = [VSTeamPermissions]::new('Permissions')
+
+         It 'Should create Permissions' {
+            $permissions | Should Not Be $null
+            $permissions.GetChildItem().Count | Should Be 2
+         }
+
+         $groups = $permissions.GetChildItem()[0]
+         $users = $permissions.GetChildItem()[1]
+
+         It 'Should return groups' {
+            $groups | Should Not Be $null
+         }
+
+         It 'Should return users' {
+            $users | Should Not Be $null
          }
       }
    }

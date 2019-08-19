@@ -160,7 +160,7 @@ Parameter Sets: Secure, Plain
 
 ### -Profile
 
-The profile name stored using Set-VSTeamProfile function. You can tab complete through existing profile names.
+The profile name stored using Add-VSTeamProfile function. You can tab complete through existing profile names.
 
 ```yaml
 Type: String
@@ -197,10 +197,14 @@ Type: String
 
 ### -Force
 
-Forces the command without confirmation
+Forces the function without confirmation
 
 ```yaml
 Type: SwitchParameter
+Required: false
+Position: Named
+Accept pipeline input: false
+Parameter Sets: (All)
 ```
 
 ## INPUTS
@@ -213,7 +217,7 @@ Type: SwitchParameter
 
 [Set-VSTeamAccount](Set-VSTeamAccount.md)
 
-[Set-VSTeamProfile](Set-VSTeamProfile.md)
+[Add-VSTeamProfile](Add-VSTeamProfile.md)
 
 [Clear-VSTeamDefaultProject](Clear-VSTeamDefaultProject.md)
 
